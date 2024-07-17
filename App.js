@@ -20,6 +20,7 @@ const AppContent = () => {
   const cart = useSelector(state => state.cart);
   const [selectedProduct, setSelectedProduct] = React.useState(null);
   const width = Dimensions.get('window').width;
+
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch('https://fakestoreapi.com/products');
@@ -29,40 +30,43 @@ const AppContent = () => {
     fetchData();
   }, [dispatch]);
 
+  const handleAddToCart = product => {
+    dispatch(addToCart(product));
+    setSelectedProduct(null);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View
         style={{
           backgroundColor: 'white',
           width: width,
-          // height: 60,
-          paddingVertical:20 ,
-          flexDirection:'row' ,
+          paddingVertical: 20,
+          flexDirection: 'row',
           justifyContent: 'space-around',
-          alignItem: 'center',
-          elevation:2 ,
+          alignItems: 'center',
+          elevation: 2,
         }}>
         <Text
           style={{
             color: '#000',
-            fontWeight:'500' ,
-            fontSize:18 ,
+            fontWeight: '500',
+            fontSize: 18,
             letterSpacing: 2,
           }}>
-          Spaarks Shoping
+          Spaarks Shopping
         </Text>
-        <Icon name="basket-outline" style={{color: '#000' , fontSize:20 ,}} />
+        <Icon name="basket-outline" style={{color: '#000', fontSize: 20}} />
       </View>
       <ProductList products={products} onProductPress={setSelectedProduct} />
-      <ProductModal
-        product={selectedProduct}
-        isVisible={!!selectedProduct}
-        onClose={() => setSelectedProduct(null)}
-        onAddToCart={product => {
-          dispatch(addToCart(product));
-          setSelectedProduct(null);
-        }}
-      />
+      {selectedProduct && (
+        <ProductModal
+          product={selectedProduct}
+          isVisible={!!selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+          onAddToCart={handleAddToCart}
+        />
+      )}
       {/* <Cart
         cart={cart}
         onIncrement={id => dispatch(incrementQuantity(id))}
@@ -81,7 +85,6 @@ const App = () => (
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  
   },
 });
 

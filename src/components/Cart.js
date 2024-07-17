@@ -6,7 +6,7 @@ const Cart = ({cart, onIncrement, onDecrement}) => (
   <View style={styles.cart}>
     {cart.map(item => (
       <View key={item.id} style={styles.cartItem}>
-        <Text>{item.title}</Text>
+        {/* <Text>{item.title}</Text> */}
         <View style={styles.cartControls}>
           <Button title="-" onPress={() => onDecrement(item.id)} />
           <Text>{item.quantity}</Text>
