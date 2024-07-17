@@ -66,10 +66,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: 'bold',
+    color:'#000',
     marginVertical: 10,
   },
   description: {
     marginVertical: 10,
+    color:'#000' ,
   },
   price: {
     fontSize: 16,

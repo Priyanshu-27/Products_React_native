@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
     gap: 10,
     padding: 15,
     borderRadius: 10,
+    backgroundColor:'#fff',
     borderWidth: 1,
     marginLeft: 20,
     marginRight: 20,
