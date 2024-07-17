@@ -1,7 +1,14 @@
 // App.js
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Provider, useDispatch, useSelector} from 'react-redux';
-import {SafeAreaView, StyleSheet, View, Text, Dimensions} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  View,
+  Text,
+  Dimensions,
+  ActivityIndicator,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import store from './src/redux/store';
 import {
@@ -19,13 +26,16 @@ const AppContent = () => {
   const products = useSelector(state => state.products);
   const cart = useSelector(state => state.cart);
   const [selectedProduct, setSelectedProduct] = React.useState(null);
+  const [loading, setLoading] = useState(true);
   const width = Dimensions.get('window').width;
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true); // Set loading to true before fetching data
       const response = await fetch('https://fakestoreapi.com/products');
       const data = await response.json();
       dispatch({type: FETCH_PRODUCTS, payload: data});
+      setLoading(false); // Set loading to false after data is fetched
     };
     fetchData();
   }, [dispatch]);
@@ -58,7 +68,11 @@ const AppContent = () => {
         </Text>
         <Icon name="basket-outline" style={{color: '#000', fontSize: 20}} />
       </View>
-      <ProductList products={products} onProductPress={setSelectedProduct} />
+      {loading ? (
+        <ActivityIndicator size="large" color="#000" style={{flex:1 , justifyContent:'center'}} />
+      ) : (
+        <ProductList products={products} onProductPress={setSelectedProduct} />
+      )}
       {selectedProduct && (
         <ProductModal
           product={selectedProduct}
